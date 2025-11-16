@@ -24,13 +24,12 @@ import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 
-import cloudflare from "@astrojs/cloudflare";
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://fuwari.vercel.app/",
   base: "/",
   trailingSlash: "always",
+  output: "static",
 
   integrations: [
       tailwind({
@@ -158,22 +157,4 @@ export default defineConfig({
       ],
 	},
 
-  vite: {
-      build: {
-          rollupOptions: {
-              onwarn(warning, warn) {
-                  // temporarily suppress this warning
-                  if (
-                      warning.message.includes("is dynamically imported by") &&
-                      warning.message.includes("but also statically imported by")
-                  ) {
-                      return;
-                  }
-                  warn(warning);
-              },
-          },
-      },
-	},
-
-  adapter: cloudflare(),
 });
